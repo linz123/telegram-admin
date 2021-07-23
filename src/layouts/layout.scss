@@ -4,6 +4,9 @@
   line-height: 64px;
   cursor: pointer;
   transition: color 0.3s;
+  color: #f8f8f8;
+  position: fixed;
+  bottom: 10px;
 }
 
 .trigger:hover {
@@ -18,4 +21,25 @@
 
 .site-layout .site-layout-background {
   background: #fff;
+}
+
+.site-layout {
+  .layout-side {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0 16px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 21, 41,0.08);
+
+    .item-space {
+      display: flex;
+      float: right;
+      height: 48px;
+      margin-left: auto;
+      overflow: hidden;
+    }
+  }
 }

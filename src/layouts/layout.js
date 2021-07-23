@@ -1,4 +1,4 @@
-import {Breadcrumb, Layout, Menu} from 'antd';
+import {Breadcrumb, Layout, Menu,Button} from 'antd';
 import {
     AppstoreOutlined,
     MenuUnfoldOutlined,
@@ -47,13 +47,18 @@ export default function Layouts() {
                         </SubMenu>
                     </SubMenu>
                 </Menu>
+                {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                    className: 'trigger',
+                    onClick: () => setCollapsed(!collapsed)
+                })}
             </Sider>
             <Layout className="site-layout">
                 <Header className="site-layout-background" style={{padding: 0}}>
-                    {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                        className: 'trigger',
-                        onClick: () => setCollapsed(!collapsed)
-                    })}
+                    <div className="layout-side">
+                        <div className="item-space">
+
+                        </div>
+                    </div>
                 </Header>
                 <Breadcrumb style={{margin: '16px'}}>
                     <Breadcrumb.Item>User</Breadcrumb.Item>
