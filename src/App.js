@@ -5,9 +5,9 @@ import React, {createContext} from "react";
 
 
 
-function App() {
+function App(props) {
 
-
+    console.log('App-props', props);
     return (
         <RouterConfig />
 

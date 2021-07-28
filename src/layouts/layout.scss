@@ -13,10 +13,41 @@
   color: #1890ff;
 }
 
-.logo {
-  height: 32px;
-  margin: 16px;
-  background: url("../logo.svg") no-repeat;
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 55px;
+
+  .logo {
+    height: 22.6px;
+    margin: 12px;
+    width: 32px;
+    background: url("../logo.svg") no-repeat;
+  }
+
+  .logo-txt {
+    //display: inline-block;
+    //height: 32px;
+    ////margin: 0 0 0 12px;
+    //color: #fff;
+    //font-weight: 600;
+    //font-size: 18px;
+    //line-height: 32px;
+    //vertical-align: middle;
+    //animation: pro-layout-title-hide .3s;
+
+    vertical-align: text-bottom;
+    font-size: 15px;
+    text-transform: uppercase;
+    display: inline-block;
+    font-weight: 700;
+    color: #1890ff;
+    background-image: -webkit-gradient(linear, 37.21984% 34.53251%, 36.42567% 93.17822%, from(#29cdff), to(#0a60ff), color-stop(0.37, #148eff));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
 }
 
 .site-layout .site-layout-background {
@@ -32,7 +63,7 @@
     width: 100%;
     padding: 0 16px;
     background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 21, 41,0.08);
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
     .item-space {
       display: flex;
@@ -40,6 +71,23 @@
       height: 48px;
       margin-left: auto;
       overflow: hidden;
+
+      .item-space-item {
+        margin-right: 8px;
+        background: hsla(0, 0%, 100%, .85);
+        display: flex;
+        align-items: center;
+        height: 48px;
+        padding: 0 12px;
+        cursor: pointer;
+        transition: all .3s;
+
+        img {
+          width: 24px;
+          margin-right: 8px;
+        }
+
+      }
     }
   }
 }

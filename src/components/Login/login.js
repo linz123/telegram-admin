@@ -4,21 +4,19 @@ import logo from '../../logo.svg';
 import {login} from "../../api/user";
 import {observer} from "mobx-react";
 import {setItem} from "../../utils/storage";
-import {useHistory} from 'react-router-dom';
 
+export default observer(({store, props, history}) => {
 
-export default observer(({store}) => {
-
-        const history = useHistory();
+        console.log('login-props', props);
         console.log('store', store);
         const onFinish = values => {
             console.log('values', values)
             login(values).then(resp => {
                 if (resp.status === 200) {
                     store.user = resp.data;
-                    setItem('user', resp.data);
+                    setItem('user', JSON.stringify(resp.data));
                     console.log('store', store);
-                    history.push('/merchant');
+                    history.replace('/user/merchant');
                 }
             })
         }
@@ -43,7 +41,7 @@ export default observer(({store}) => {
                             className="form-item"
                             rules={[{required: true, message: 'Please input your Password!'}]}
                         >
-                            <Input placeholder="Password"/>
+                            <Input placeholder="Password" type="password"/>
                         </Form.Item>
                         <Form.Item className="form-item">
                             <Form.Item name="remember" valuePropName="checked" noStyle>

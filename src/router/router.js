@@ -1,29 +1,26 @@
 import React from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect
-} from "react-router-dom";
+import {Route, withRouter, Switch} from "react-router-dom";
 import Login from '../components/Login/login';
-import {Store} from '../service/user';
 import Layout from "../layouts/layout";
+import {Store} from "../service/user";
+import {getItem} from "../utils/storage";
 
 
 const routes = [
-
     {
         path: "/",
-        exact: true,
         component: Login,
+        exact: true,
+        auth: false
     },
     {
-        path: "/",
+        path: "/user",
         component: Layout,
+        auth: true,
         routes: [
             {
                 path: "/merchant",
-                component: Merchant
+                component: Merchant,
             },
             {
                 path: "/Merchant3",
@@ -42,23 +39,41 @@ function RouteWithSubRoutes(route) {
             path={route.path}
             render={props => (
                 // pass the sub-routes down to keep nesting
-                <route.component {...props} routes={route.routes} store={store}/>
+                <route.component props={props} {...props} routes={route.routes} store={store}/>
             )}
         />
     );
 }
 
-export default function RouterConfig() {
+
+export default withRouter(props => {
+    const {history, location} = props;
+    const isLogin = getItem('user');
+    history.listen((location) => {
+        // console.log('listen', location);
+        // if (!isLogin) {
+        //     history.push('/');
+        // }
+        // if (isLogin) {
+        //     location.pathname === '/' && history.push('/user/merchant');
+        // } else {
+        //     location.pathname !== '/' && history.push('/');
+        // }
+    })
+    if (isLogin) {
+        location.pathname === '/' && history.push('/user/merchant');
+    } else {
+        location.pathname !== '/' && history.push('/');
+    }
+
     return (
-        <Router>
-            <Switch>
-                {routes.map((route, i) => (
-                    <RouteWithSubRoutes key={i} {...route} />
-                ))}
-            </Switch>
-        </Router>
+        <Switch>
+            {routes.map((route, i) => (
+                <RouteWithSubRoutes key={i} {...route} />
+            ))}
+        </Switch>
     )
-}
+})
 
 function Merchant() {
     return <h1>Merchant</h1>

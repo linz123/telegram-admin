@@ -3,9 +3,10 @@ export function setItem(key, value) {
 }
 
 export function getItem(key) {
-    return JSON.parse(localStorage.getItem(key));
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
 }
 
 export function removeItem(key) {
-    return localStorage.removeItem(key);
+    localStorage.removeItem(key);
 }
