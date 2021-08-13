@@ -1,4 +1,4 @@
-import {Breadcrumb, Layout, Menu, Button, Dropdown} from 'antd';
+import {Breadcrumb, Layout, Menu, Dropdown} from 'antd';
 import {
     AppstoreOutlined,
     MenuUnfoldOutlined,
@@ -13,8 +13,8 @@ import React, {useState} from 'react';
 import './layout.scss';
 import userIcon from '../assets/BiazfanxmamNRoxxVxka.png';
 import {removeItem} from "../utils/storage";
-import {useHistory} from "react-router-dom";
-
+import {Route, useHistory,Switch} from "react-router-dom";
+import Merchant from "../pages/merchant/merchant";
 
 
 const {SubMenu} = Menu;
@@ -105,9 +105,10 @@ export default function Layouts() {
                     }}
                 >
                     <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
-                        Content
+                        <Switch>
+                            <Route path="/user/merchant" children={<Merchant/>}/>
+                        </Switch>
                     </div>
-
                 </Content>
             </Layout>
         </Layout>

@@ -3,3 +3,42 @@ import request from "../utils/request";
 export function login(paras) {
     return request.post('/user/login', paras);
 }
+
+export function addMerchant() {
+    return request.post('/merchant/addMerchant');
+}
+
+export function editMerchant() {
+    return request.post('/merchant/updateMerchant');
+}
+
+
+export function getMerchant(data) {
+    return request.post('/merchant/getMerchant', data);
+}
+
+
+export function addTag(paras) {
+    return request.post('/merchant/addTag', paras);
+}
+
+export function deleteTag() {
+    return request.post('/merchant/deleteTag')
+}
+
+export function getTags() {
+    return request.post('/merchant/getTags')
+}
+
+
+export function addClass(paras) {
+    return request.post('/merchant/addClass', paras);
+}
+
+export function deleteClass() {
+    return request.post('/merchant/deleteClass')
+}
+
+export function getClasses() {
+    return request.post('/merchant/getClass')
+}

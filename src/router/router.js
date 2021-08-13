@@ -4,6 +4,7 @@ import Login from '../components/Login/login';
 import Layout from "../layouts/layout";
 import {Store} from "../service/user";
 import {getItem} from "../utils/storage";
+import Merchant from '../pages/merchant/merchant';
 
 
 const routes = [
@@ -16,17 +17,7 @@ const routes = [
     {
         path: "/user",
         component: Layout,
-        auth: true,
-        routes: [
-            {
-                path: "/merchant",
-                component: Merchant,
-            },
-            {
-                path: "/Merchant3",
-                component: Merchant
-            }
-        ]
+        auth: true
     },
 
 ];
@@ -74,8 +65,3 @@ export default withRouter(props => {
         </Switch>
     )
 })
-
-function Merchant() {
-    return <h1>Merchant</h1>
-}
-
