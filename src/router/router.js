@@ -38,6 +38,7 @@ function RouteWithSubRoutes(route) {
 
 
 export default withRouter(props => {
+    console.log('withRouter-props', props)
     const {history, location} = props;
     const isLogin = getItem('user');
     history.listen((location) => {

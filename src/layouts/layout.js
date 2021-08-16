@@ -13,16 +13,18 @@ import React, {useState} from 'react';
 import './layout.scss';
 import userIcon from '../assets/BiazfanxmamNRoxxVxka.png';
 import {removeItem} from "../utils/storage";
-import {Route, useHistory,Switch} from "react-router-dom";
+import {Route, useHistory, Switch, Link} from "react-router-dom";
 import Merchant from "../pages/merchant/merchant";
+import {observer} from "mobx-react";
 
 
 const {SubMenu} = Menu;
 const {Header, Sider, Content} = Layout;
 
-export default function Layouts() {
-    const history = useHistory();
+export default observer(({store, props, history}) => {
+
     const [collapsed, setCollapsed] = useState(false);
+    console.log('layout-store', store, store.user);
 
     function handleMenuClick(e) {
         // message.info('Click on menu item.');
@@ -49,29 +51,32 @@ export default function Layouts() {
                 </div>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
 
+                    {/*<SubMenu key="sub1" icon={<MailOutlined/>} title="Navigation One">*/}
+                    {/*    <Menu.Item key="5">Option 5</Menu.Item>*/}
+                    {/*    <Menu.Item key="6">Option 6</Menu.Item>*/}
+                    {/*    <Menu.Item key="7">Option 7</Menu.Item>*/}
+                    {/*    <Menu.Item key="8">Option 8</Menu.Item>*/}
+                    {/*</SubMenu>*/}
+                    {/*<SubMenu key="sub2" icon={<AppstoreOutlined/>} title="Navigation Two">*/}
+                    {/*    <Menu.Item key="9">Option 9</Menu.Item>*/}
+                    {/*    <Menu.Item key="10">Option 10</Menu.Item>*/}
+                    {/*    <SubMenu key="sub3" title="Submenu">*/}
+                    {/*        <Menu.Item key="11">Option 11</Menu.Item>*/}
+                    {/*        <Menu.Item key="12">Option 12</Menu.Item>*/}
+                    {/*    </SubMenu>*/}
+                    {/*</SubMenu>*/}
+
                     <SubMenu key="sub1" icon={<MailOutlined/>} title="Navigation One">
-                        <Menu.Item key="5">Option 5</Menu.Item>
-                        <Menu.Item key="6">Option 6</Menu.Item>
-                        <Menu.Item key="7">Option 7</Menu.Item>
-                        <Menu.Item key="8">Option 8</Menu.Item>
+                        <Menu.Item key="/user/merchant" icon={<PieChartOutlined/>}>
+                            <Link to="/user/merchant">Option 1</Link>
+                        </Menu.Item>
                     </SubMenu>
-                    <SubMenu key="sub2" icon={<AppstoreOutlined/>} title="Navigation Two">
-                        <Menu.Item key="9">Option 9</Menu.Item>
-                        <Menu.Item key="10">Option 10</Menu.Item>
-                        <SubMenu key="sub3" title="Submenu">
-                            <Menu.Item key="11">Option 11</Menu.Item>
-                            <Menu.Item key="12">Option 12</Menu.Item>
-                        </SubMenu>
-                    </SubMenu>
-                    <Menu.Item key="1" icon={<PieChartOutlined/>}>
-                        Option 1
-                    </Menu.Item>
-                    <Menu.Item key="2" icon={<DesktopOutlined/>}>
-                        Option 2
-                    </Menu.Item>
-                    <Menu.Item key="3" icon={<ContainerOutlined/>}>
-                        Option
-                    </Menu.Item>
+                    {/*<Menu.Item key="2" icon={<DesktopOutlined/>}>*/}
+                    {/*    Option 2*/}
+                    {/*</Menu.Item>*/}
+                    {/*<Menu.Item key="3" icon={<ContainerOutlined/>}>*/}
+                    {/*    Option*/}
+                    {/*</Menu.Item>*/}
                 </Menu>
                 {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                     className: 'trigger',
@@ -86,7 +91,7 @@ export default function Layouts() {
                                 <div className="item-space-item">
                                     <img src={userIcon}
                                          alt=""/>
-                                    <span>Serati Ma</span>
+                                    <span>{store.user ? store.user.username : ''}</span>
                                 </div>
                             </Dropdown>
                         </div>
@@ -114,4 +119,4 @@ export default function Layouts() {
         </Layout>
 
     )
-}
+})

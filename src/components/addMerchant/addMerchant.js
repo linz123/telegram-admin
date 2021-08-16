@@ -1,7 +1,7 @@
 import './addMerchant.scss';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Col, Row, Drawer, Form, Input, Select, Divider, message} from "antd";
-import {addClass, addTag, getClasses, getTags} from "../../api/user";
+import {addClass, addMerchant, addTag, getClasses, getTags} from "../../api/user";
 import {PlusOutlined} from "@ant-design/icons";
 
 export default function (props) {
@@ -16,9 +16,19 @@ export default function (props) {
 
     const {Option} = Select;
 
+    let formRef = React.createRef();
+
 
     function onFinish(values) {
         console.log('onFinish', values);
+        addMerchant(values).then(resp => {
+            if (resp.status === 200) {
+                message.success(resp.msg);
+                formRef.current.resetFields();
+                toggleVisible(false);
+            }
+
+        })
     }
 
     function getTagItem() {
@@ -33,6 +43,7 @@ export default function (props) {
         getClasses().then(resp => {
             if (resp.status === 200) {
                 setClassItem(resp.data);
+
             }
         })
     }
@@ -81,7 +92,7 @@ export default function (props) {
     useEffect(() => {
         getClassItem();
         getTagItem();
-    }, [])
+    }, []);
 
     return (
         <Drawer
@@ -92,7 +103,7 @@ export default function (props) {
             onClose={() => toggleVisible(false)}
 
         >
-            <Form layout="vertical" onFinish={onFinish}>
+            <Form layout="vertical" onFinish={onFinish} ref={formRef}>
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item

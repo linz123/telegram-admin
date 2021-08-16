@@ -4,8 +4,8 @@ export function login(paras) {
     return request.post('/user/login', paras);
 }
 
-export function addMerchant() {
-    return request.post('/merchant/addMerchant');
+export function addMerchant(para) {
+    return request.post('/merchant/addMerchant', para);
 }
 
 export function editMerchant() {

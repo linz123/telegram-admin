@@ -13,6 +13,7 @@ export default observer(({store, props, history}) => {
             console.log('values', values)
             login(values).then(resp => {
                 if (resp.status === 200) {
+                    console.log(resp.data);
                     store.user = resp.data;
                     setItem('user', JSON.stringify(resp.data));
                     console.log('store', store);
