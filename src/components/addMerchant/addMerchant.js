@@ -1,7 +1,7 @@
 import './addMerchant.scss';
 import React, {useEffect, useState} from "react";
 import {Button, Col, Row, Drawer, Form, Input, Select, Divider, message} from "antd";
-import {addClass, addMerchant, addTag, getClasses, getTags} from "../../api/user";
+import {addClass, addMerchant, addTag, getClasses, getTags, updateMerchant} from "../../api/user";
 import {PlusOutlined} from "@ant-design/icons";
 
 export default function (props) {
@@ -9,26 +9,44 @@ export default function (props) {
     const [classItem, setClassItem] = useState([]);
     const [newClass, setNewClass] = useState('');
     const [newTagName, setNewTagName] = useState('');
+    const [title, setTitle] = useState('');
 
-    const {visible, toggleVisible} = props;
+    const {visible, toggleVisible, editRow} = props;
 
+    console.log('editRow', editRow);
     console.log('visible', visible);
 
     const {Option} = Select;
 
     let formRef = React.createRef();
-
+    formRef.current && formRef.current.resetFields();
 
     function onFinish(values) {
         console.log('onFinish', values);
-        addMerchant(values).then(resp => {
-            if (resp.status === 200) {
-                message.success(resp.msg);
-                formRef.current.resetFields();
-                toggleVisible(false);
-            }
 
-        })
+        if (editRow) {
+            let newValues = Object.assign(values, {id: editRow.tel_id})
+            console.log('newValues', newValues);
+            updateMerchant(newValues).then(resp => {
+                if (resp.status === 200) {
+                    formRef.current.resetFields();
+                    message.success(resp.msg);
+                    toggleVisible(false);
+                }
+
+            })
+        } else {
+            addMerchant(values).then(resp => {
+                if (resp.status === 200) {
+                    message.success(resp.msg);
+                    formRef.current.resetFields();
+                    toggleVisible(false);
+                }
+
+            })
+        }
+
+
     }
 
     function getTagItem() {
@@ -92,15 +110,38 @@ export default function (props) {
     useEffect(() => {
         getClassItem();
         getTagItem();
+        console.log('editRow2', editRow);
     }, []);
+
+
+    useEffect(() => {
+        setTitle(editRow ? 'Edit a item' : 'Create a new item');
+        console.log('editRow2', editRow, title);
+        if (editRow) {
+            console.log('formRef', formRef)
+            if (typeof (editRow.tag_ids) === "string") {
+
+                editRow.tag_ids = editRow.tag_ids.split(',');
+            }
+            formRef.current.setFieldsValue(editRow);
+
+        } else {
+            formRef.current && formRef.current.resetFields();
+        }
+    })
+
+    function close() {
+        toggleVisible(false)
+        formRef.current.resetFields();
+    }
 
     return (
         <Drawer
-            title="Create a new account"
+            title={title}
             width={720}
             visible={visible}
             bodyStyle={{paddingBottom: 80}}
-            onClose={() => toggleVisible(false)}
+            onClose={close}
 
         >
             <Form layout="vertical" onFinish={onFinish} ref={formRef}>
@@ -116,8 +157,8 @@ export default function (props) {
                     </Col>
                     <Col span={12}>
                         <Form.Item
-                            name="merchantId"
-                            label="merchantId"
+                            name="merchant_id"
+                            label="telegram"
                             rules={[{required: true, message: 'Please enter user merchantId'}]}
                         >
                             <Input placeholder="Please enter user merchantId"/>
@@ -127,7 +168,7 @@ export default function (props) {
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item
-                            name="tagIds"
+                            name="tag_ids"
                             label="tagIds"
                             rules={[{required: false, message: 'Please select an tagIds'}]}
                         >
@@ -164,7 +205,7 @@ export default function (props) {
                     </Col>
                     <Col span={12}>
                         <Form.Item
-                            name="classIds"
+                            name="class_ids"
                             label="classIds"
                             rules={[{required: false, message: 'Please choose the classIds'}]}
 
@@ -203,7 +244,7 @@ export default function (props) {
                 <Row gutter={16}>
                     <Col span={24}>
                         <Form.Item
-                            name="description"
+                            name="describe"
                             label="Description"
                             rules={[
                                 {
@@ -225,7 +266,7 @@ export default function (props) {
                                     paddingTop: '20px'
                                 }}
                             >
-                                <Button onClick={() => toggleVisible(false)} style={{marginRight: 8}}>
+                                <Button onClick={close} style={{marginRight: 8}}>
                                     Cancel
                                 </Button>
                                 <Button type="primary" htmlType="submit" style={{marginLeft: '15px'}}>

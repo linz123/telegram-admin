@@ -12,9 +12,16 @@ export function editMerchant() {
     return request.post('/merchant/updateMerchant');
 }
 
+export function deleteMerchant(tel_id) {
+    return request.post('/merchant/deleteMerchant', {tel_id});
+}
 
 export function getMerchant(data) {
     return request.post('/merchant/getMerchant', data);
+}
+
+export function updateMerchant(data) {
+    return request.post('/merchant/updateMerchant', data);
 }
 
 

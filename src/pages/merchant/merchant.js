@@ -1,7 +1,7 @@
 import './merchant.scss';
-import {Button, Table, Tag} from "antd";
+import {Button, Popconfirm, Table, Tag} from "antd";
 import {useEffect, useState} from "react";
-import {getClasses, getMerchant, getTags} from "../../api/user";
+import {deleteMerchant, getClasses, getMerchant, getTags} from "../../api/user";
 import AddMerchant from "../../components/addMerchant/addMerchant";
 import {PlusOutlined} from "@ant-design/icons";
 
@@ -13,6 +13,7 @@ export default function () {
 
     const [tagItem, setTagItem] = useState([]);
     const [classItem, setClassItem] = useState([]);
+    const [editRow, setEditRow] = useState(undefined);
 
     const columns = [
         {
@@ -35,7 +36,7 @@ export default function () {
             title: '标签',
             dataIndex: 'tag_ids',
             render: tags => {
-                let tagArr = tags.split(',');
+                let tagArr = typeof (tags) === "string" ? tags.split(',') : tags;
                 return tagArr.map(tag => {
                     return (
                         <Tag color='green' key={tag}>{tagItem[tag] && tagItem[tag].tag_name}</Tag>
@@ -50,7 +51,37 @@ export default function () {
                 <Tag color='blue' key={item}>{classItem[item] && classItem[item].class_name}</Tag>
             )
         },
+        {
+            title: '操作',
+            dataIndex: 'edit',
+            render: (text, record, index) => {
+                return (
+                    <>
+                        <Button type="default" size='small' style={{marginRight: '5px'}}
+                                onClick={() => onEdit(record)}>Edit</Button>
+                        <Popconfirm
+                            placement="leftBottom"
+                            title='Are you sure to delete this item?'
+                            onConfirm={() => itemDeleteConfirm(record.tel_id)}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button type="link" size='small' danger>Delete</Button>
+                        </Popconfirm>
+                    </>
+                )
+            }
+        }
     ];
+
+
+    function itemDeleteConfirm(tel_id) {
+        deleteMerchant(tel_id).then(resp => {
+            if (resp.status === 200) {
+                getData();
+            }
+        })
+    }
 
 
     let pageSize = 10;
@@ -65,7 +96,8 @@ export default function () {
         })
     }
 
-    function onchange(pageIndex, pageSize) {
+    function onchange(current, pageSize) {
+        pageIndex = current;
         getMerchant({pageSize, pageIndex}).then(r => {
             if (r.status === 200) {
                 setData(r.data);
@@ -101,6 +133,15 @@ export default function () {
     function onChange(isVisible) {
         console.log('onChange', isVisible)
         setVisible(isVisible)
+        setEditRow(undefined);
+        getData();
+    }
+
+
+    function onEdit(record) {
+        console.log('record', record);
+        setVisible(true);
+        setEditRow(record)
     }
 
     return (
@@ -112,7 +153,7 @@ export default function () {
             <Table dataSource={data} columns={columns} pagination={{
                 position: 'bottomRight', total, pageSize, onChange: (current, size) => onchange(current, size)
             }}/>
-            <AddMerchant visible={visible} toggleVisible={onChange}/>
+            <AddMerchant editRow={editRow} visible={visible} toggleVisible={onChange}/>
         </div>
     )
 }

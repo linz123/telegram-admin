@@ -9,10 +9,10 @@ import {
     MailOutlined,
     LoginOutlined
 } from '@ant-design/icons';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './layout.scss';
 import userIcon from '../assets/BiazfanxmamNRoxxVxka.png';
-import {removeItem} from "../utils/storage";
+import {getItem, removeItem} from "../utils/storage";
 import {Route, useHistory, Switch, Link} from "react-router-dom";
 import Merchant from "../pages/merchant/merchant";
 import {observer} from "mobx-react";
@@ -26,6 +26,13 @@ export default observer(({store, props, history}) => {
     const [collapsed, setCollapsed] = useState(false);
     console.log('layout-store', store, store.user);
 
+
+    function setUser() {
+        const user = getItem('user');
+        console.log('user', user);
+        if (user) store.user = user
+    }
+
     function handleMenuClick(e) {
         // message.info('Click on menu item.');
         console.log('click', e);
@@ -33,6 +40,10 @@ export default observer(({store, props, history}) => {
         history.push('/');
 
     }
+
+    useEffect(() => {
+        setUser();
+    }, [])
 
     const menu = (
         <Menu onClick={handleMenuClick}>
