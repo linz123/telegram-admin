@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Popconfirm, Table, Typography, Input, Form, message} from "antd";
-import {getClasses, updateClass} from "../../api/user";
+import {deleteClass, getClasses, updateClass} from "../../api/user";
 import './class.scss';
 
 export default function () {
@@ -12,7 +12,6 @@ export default function () {
     function getData() {
         getClasses().then(resp => {
             if (resp.status === 200) {
-                console.log(resp.data)
                 const newData = resp.data.map(item => {
                     item.key = item.class_id
                     return item;
@@ -23,12 +22,16 @@ export default function () {
     }
 
     function handleDelete(class_id) {
-
+        deleteClass(class_id).then(resp => {
+            if (resp.status === 200) {
+                message.success(resp.msg);
+                getData();
+            }
+        })
     }
 
 
     const save = async (key, record) => {
-        console.log('key', key, record);
         try {
             const row = await form.validateFields();
             const newData = [...data];
@@ -44,13 +47,11 @@ export default function () {
                     }
                 })
                 setEditingKey('');
-
             } else {
                 newData.push(row);
                 setData(newData);
                 setEditingKey('');
             }
-
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
         }
@@ -58,7 +59,6 @@ export default function () {
 
 
     const edit = record => {
-        console.log('record', record);
         form.setFieldsValue({
             class_name: '',
             class_description: '',
@@ -84,15 +84,6 @@ export default function () {
                               children,
                               ...restProps
                           }) => {
-        console.log('EditableCell', {
-            editing,
-            dataIndex,
-            title,
-            record,
-            index,
-            children,
-            restProps
-        })
         return (
             <td {...restProps}>
                 {editing ? (
@@ -169,7 +160,6 @@ export default function () {
     ];
 
     const mergedColumns = columns.map((col) => {
-        console.log('col', col);
         if (!col.editable) {
             return col;
         }

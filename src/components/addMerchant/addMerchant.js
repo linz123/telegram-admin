@@ -13,20 +13,15 @@ export default function (props) {
 
     const {visible, toggleVisible, editRow} = props;
 
-    console.log('editRow', editRow);
-    console.log('visible', visible);
-
     const {Option} = Select;
 
     let formRef = React.createRef();
     formRef.current && formRef.current.resetFields();
 
     function onFinish(values) {
-        console.log('onFinish', values);
 
         if (editRow) {
             let newValues = Object.assign(values, {id: editRow.tel_id})
-            console.log('newValues', newValues);
             updateMerchant(newValues).then(resp => {
                 if (resp.status === 200) {
                     formRef.current.resetFields();
@@ -116,7 +111,6 @@ export default function (props) {
 
     useEffect(() => {
         setTitle(editRow ? 'Edit a item' : 'Create a new item');
-        console.log('editRow2', editRow, title);
         if (editRow) {
             console.log('formRef', formRef)
             if (typeof (editRow.tag_ids) === "string") {

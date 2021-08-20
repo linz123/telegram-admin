@@ -16,6 +16,7 @@ import {getItem, removeItem} from "../utils/storage";
 import {Route, useHistory, Switch, Link} from "react-router-dom";
 import Merchant from "../pages/merchant/merchant";
 import MerClass from "../pages/classes/class";
+import Tags from "../pages/tags/tags";
 import {observer} from "mobx-react";
 
 
@@ -85,6 +86,9 @@ export default observer(({store, props, history}) => {
                         <Menu.Item key="/user/class" icon={<PieChartOutlined/>}>
                             <Link to="/user/class">Class</Link>
                         </Menu.Item>
+                        <Menu.Item key="/user/tags" icon={<PieChartOutlined/>}>
+                            <Link to="/user/tags">Tags</Link>
+                        </Menu.Item>
                     </SubMenu>
                     {/*<Menu.Item key="2" icon={<DesktopOutlined/>}>*/}
                     {/*    Option 2*/}
@@ -130,6 +134,9 @@ export default observer(({store, props, history}) => {
                         </Switch>
                         <Switch>
                             <Route path="/user/class" children={<MerClass/>}/>
+                        </Switch>
+                        <Switch>
+                            <Route path="/user/tags" children={<Tags/>}/>
                         </Switch>
                     </div>
                 </Content>

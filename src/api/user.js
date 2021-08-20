@@ -25,12 +25,16 @@ export function addTag(paras) {
     return request.post('/merchant/addTag', paras);
 }
 
-export function deleteTag() {
-    return request.post('/merchant/deleteTag')
+export function deleteTag(tag_id) {
+    return request.post('/merchant/deleteTag', {tag_id})
 }
 
 export function getTags() {
     return request.post('/merchant/getTags')
+}
+
+export function updateTags(para) {
+    return request.post('/merchant/updateTags', para);
 }
 
 
@@ -43,8 +47,8 @@ export function updateClass(paras) {
 }
 
 
-export function deleteClass() {
-    return request.post('/merchant/deleteClass')
+export function deleteClass(class_id) {
+    return request.post('/merchant/deleteClass', {class_id})
 }
 
 export function getClasses() {

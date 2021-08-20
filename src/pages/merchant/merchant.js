@@ -130,14 +130,12 @@ export default function () {
     }
 
     useEffect(() => {
-        console.log('hello');
         getData();
         getClassItem();
         getTagItem();
     }, [])
 
     function onChange(isVisible) {
-        console.log('onChange', isVisible)
         setVisible(isVisible)
         setEditRow(undefined);
         getData();
@@ -145,7 +143,6 @@ export default function () {
 
 
     function onEdit(record) {
-        console.log('record', record);
         setVisible(true);
         setEditRow(record)
     }
