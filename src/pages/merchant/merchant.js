@@ -19,22 +19,27 @@ export default function () {
         {
             title: 'Id',
             dataIndex: 'tel_id',
+            key: 'tel_id',
         },
         {
             title: '名称',
             dataIndex: 'name',
+            key: 'name',
         },
         {
             title: 'telegram',
             dataIndex: 'merchant_id',
+            key: 'merchant_id',
         },
         {
             title: '描述',
             dataIndex: 'describe',
+            key: 'describe',
         },
         {
             title: '标签',
             dataIndex: 'tag_ids',
+            key: 'tag_ids',
             render: tags => {
                 let tagArr = typeof (tags) === "string" ? tags.split(',') : tags;
                 return tagArr.map(tag => {
@@ -47,6 +52,7 @@ export default function () {
         {
             title: '分类',
             dataIndex: 'class_ids',
+            key: 'class_ids',
             render: item => (
                 <Tag color='blue' key={item}>{classItem[item] && classItem[item].class_name}</Tag>
             )

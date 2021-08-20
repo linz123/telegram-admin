@@ -8,10 +8,6 @@ export function addMerchant(para) {
     return request.post('/merchant/addMerchant', para);
 }
 
-export function editMerchant() {
-    return request.post('/merchant/updateMerchant');
-}
-
 export function deleteMerchant(tel_id) {
     return request.post('/merchant/deleteMerchant', {tel_id});
 }
@@ -41,6 +37,11 @@ export function getTags() {
 export function addClass(paras) {
     return request.post('/merchant/addClass', paras);
 }
+
+export function updateClass(paras) {
+    return request.post('/merchant/updateClass', paras)
+}
+
 
 export function deleteClass() {
     return request.post('/merchant/deleteClass')

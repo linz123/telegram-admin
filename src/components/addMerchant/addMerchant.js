@@ -153,7 +153,7 @@ export default function (props) {
                             rules={[{required: true, message: 'Please enter user name'}]}
                         >
                             <Input placeholder="Please enter user name"/>
-                        </Form.Item>shia
+                        </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item

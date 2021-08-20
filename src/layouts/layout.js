@@ -15,6 +15,7 @@ import userIcon from '../assets/BiazfanxmamNRoxxVxka.png';
 import {getItem, removeItem} from "../utils/storage";
 import {Route, useHistory, Switch, Link} from "react-router-dom";
 import Merchant from "../pages/merchant/merchant";
+import MerClass from "../pages/classes/class";
 import {observer} from "mobx-react";
 
 
@@ -79,7 +80,10 @@ export default observer(({store, props, history}) => {
 
                     <SubMenu key="sub1" icon={<MailOutlined/>} title="Navigation One">
                         <Menu.Item key="/user/merchant" icon={<PieChartOutlined/>}>
-                            <Link to="/user/merchant">Option 1</Link>
+                            <Link to="/user/merchant">Merchant</Link>
+                        </Menu.Item>
+                        <Menu.Item key="/user/class" icon={<PieChartOutlined/>}>
+                            <Link to="/user/class">Class</Link>
                         </Menu.Item>
                     </SubMenu>
                     {/*<Menu.Item key="2" icon={<DesktopOutlined/>}>*/}
@@ -123,6 +127,9 @@ export default observer(({store, props, history}) => {
                     <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
                         <Switch>
                             <Route path="/user/merchant" children={<Merchant/>}/>
+                        </Switch>
+                        <Switch>
+                            <Route path="/user/class" children={<MerClass/>}/>
                         </Switch>
                     </div>
                 </Content>
