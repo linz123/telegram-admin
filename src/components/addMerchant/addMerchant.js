@@ -120,7 +120,7 @@ export default function (props) {
             formRef.current.setFieldsValue(editRow);
 
         } else {
-            formRef.current && formRef.current.resetFields();
+            // formRef.current && formRef.current.resetFields();
         }
     })
 
@@ -164,7 +164,7 @@ export default function (props) {
                         <Form.Item
                             name="tag_ids"
                             label="tagIds"
-                            rules={[{required: false, message: 'Please select an tagIds'}]}
+                            rules={[{required: true, message: 'Please select an tagIds'}]}
                         >
                             <Select placeholder="Please select an tagIds"
                                     mode="multiple"
@@ -201,7 +201,7 @@ export default function (props) {
                         <Form.Item
                             name="class_ids"
                             label="classIds"
-                            rules={[{required: false, message: 'Please choose the classIds'}]}
+                            rules={[{required: true, message: 'Please choose the classIds'}]}
 
                         >
                             <Select placeholder="Please choose the classIds"

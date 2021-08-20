@@ -79,15 +79,15 @@ export default observer(({store, props, history}) => {
                     {/*    </SubMenu>*/}
                     {/*</SubMenu>*/}
 
-                    <SubMenu key="sub1" icon={<MailOutlined/>} title="Navigation One">
+                    <SubMenu key="sub1" icon={<MailOutlined/>} title="商户">
                         <Menu.Item key="/user/merchant" icon={<PieChartOutlined/>}>
-                            <Link to="/user/merchant">Merchant</Link>
+                            <Link to="/user/merchant">商户管理</Link>
                         </Menu.Item>
                         <Menu.Item key="/user/class" icon={<PieChartOutlined/>}>
-                            <Link to="/user/class">Class</Link>
+                            <Link to="/user/class">分类管理</Link>
                         </Menu.Item>
                         <Menu.Item key="/user/tags" icon={<PieChartOutlined/>}>
-                            <Link to="/user/tags">Tags</Link>
+                            <Link to="/user/tags">标签管理</Link>
                         </Menu.Item>
                     </SubMenu>
                     {/*<Menu.Item key="2" icon={<DesktopOutlined/>}>*/}

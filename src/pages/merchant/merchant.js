@@ -41,10 +41,13 @@ export default function () {
             dataIndex: 'tag_ids',
             key: 'tag_ids',
             render: tags => {
-                let tagArr = typeof (tags) === "string" ? tags.split(',') : tags;
+                let tagArr = typeof (tags) === "string" ? tags.split(',') : [tags];
                 return tagArr.map(tag => {
+
+                    let specItem = tagItem.filter(item => parseInt(tag) === item.tag_id);
+
                     return (
-                        <Tag color='green' key={tag}>{tagItem[tag] && tagItem[tag].tag_name}</Tag>
+                        <Tag color='green' key={tag}>{specItem[0] && specItem[0].tag_name}</Tag>
                     )
                 })
             }
@@ -53,9 +56,14 @@ export default function () {
             title: '分类',
             dataIndex: 'class_ids',
             key: 'class_ids',
-            render: item => (
-                <Tag color='blue' key={item}>{classItem[item] && classItem[item].class_name}</Tag>
-            )
+            render: item => {
+                console.log('class_ids', item, classItem);
+                let specItem = classItem.filter(classItem => parseInt(item) === classItem.class_id);
+                console.log('specItem', specItem)
+                return (<Tag color='blue' key={item}>{specItem[0] && specItem[0].class_name}</Tag>);
+            }
+
+
         },
         {
             title: '操作',
