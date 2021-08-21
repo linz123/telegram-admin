@@ -43,9 +43,7 @@ export default function () {
             render: tags => {
                 let tagArr = typeof (tags) === "string" ? tags.split(',') : [tags];
                 return tagArr.map(tag => {
-
                     let specItem = tagItem.filter(item => parseInt(tag) === item.tag_id);
-
                     return (
                         <Tag color='green' key={tag}>{specItem[0] && specItem[0].tag_name}</Tag>
                     )
