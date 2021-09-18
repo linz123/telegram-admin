@@ -15,6 +15,8 @@ export default function () {
     const [classItem, setClassItem] = useState([]);
     const [editRow, setEditRow] = useState(undefined);
 
+
+
     const columns = [
         {
             title: 'Id',
@@ -60,8 +62,16 @@ export default function () {
                 console.log('specItem', specItem)
                 return (<Tag color='blue' key={item}>{specItem[0] && specItem[0].class_name}</Tag>);
             }
-
-
+        },
+        {
+            title: '热度',
+            dataIndex: 'hot',
+            key: 'hot',
+        },
+        {
+            title: '权重',
+            dataIndex: 'weight',
+            key: 'weight',
         },
         {
             title: '操作',

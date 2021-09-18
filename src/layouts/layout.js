@@ -56,7 +56,7 @@ export default observer(({store, props, history}) => {
     );
 
     return (
-        <Layout style={{height: '100%'}}>
+        <Layout style={{minHeight: 'calc(100vh)'}}>
             <Sider trigger={null} collapsible collapsed={collapsed}>
                 <div className="logo-wrapper">
                     <div className="logo"/>
