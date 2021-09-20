@@ -54,3 +54,13 @@ export function deleteClass(class_id) {
 export function getClasses() {
     return request.post('/merchant/getClass')
 }
+
+
+export function deleteImg(paras) {
+    return request.post('/merchant/deleteImg', paras);
+}
+
+
+export function getImages(paras) {
+    return request.post('/merchant/getImages', paras);
+}

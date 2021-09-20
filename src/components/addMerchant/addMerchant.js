@@ -1,8 +1,8 @@
 import './addMerchant.scss';
 import React, {useEffect, useState} from "react";
 import {Button, Col, Row, Drawer, Form, Input, Select, Divider, message, InputNumber, Upload, Modal} from "antd";
-import {addClass, addMerchant, addTag, getClasses, getTags, updateMerchant} from "../../api/user";
-import {PlusOutlined} from "@ant-design/icons";
+import {addClass, addMerchant, addTag, deleteImg, getClasses, getImages, getTags, updateMerchant} from "../../api/user";
+import {ExclamationCircleOutlined, PlusOutlined} from "@ant-design/icons";
 
 import {getBase64} from "../../utils/upload";
 
@@ -83,26 +83,37 @@ export default function (props) {
     let formRef = React.createRef();
     formRef.current && formRef.current.resetFields();
 
+    function getImgId(filelist) {
+        let str = '';
+        for (let i = 0; i < filelist.length; i++) {
+            const file = filelist[i];
+            if (file.response && file.status === 'done') {
+                str += file.response.data.img_id + ',';
+            }
+        }
+        return str;
+    }
+
+
     function onFinish(values) {
+        let img_ids = getImgId(fileList);
 
         if (editRow) {
-            let newValues = Object.assign(values, {id: editRow.tel_id})
+            let newValues = Object.assign(values, {id: editRow.tel_id, img_ids})
             updateMerchant(newValues).then(resp => {
                 if (resp.status === 200) {
                     formRef.current.resetFields();
                     message.success(resp.msg);
                     toggleVisible(false);
                 }
-
             })
         } else {
-            addMerchant(values).then(resp => {
+            addMerchant(Object.assign(values, {img_ids})).then(resp => {
                 if (resp.status === 200) {
                     message.success(resp.msg);
                     formRef.current.resetFields();
                     toggleVisible(false);
                 }
-
             })
         }
 
@@ -168,19 +179,43 @@ export default function (props) {
     }
 
     /**
-     * 图片上传
-     * @param info
+     * 当移除图片时
+     * @returns {Promise<unknown>}
      */
-    function onChange(info) {
-        console.log('info', info);
-        if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-        }
+    function onRemove(file) {
+        return new Promise((resolve, reject) => {
+            Modal.confirm({
+                title: 'Confirm',
+                icon: <ExclamationCircleOutlined/>,
+                content: '确定要删除吗？',
+                okText: '确认',
+                cancelText: '取消',
+                onCancel: () => reject(false),
+                onOk: () => {
+                    resolve(true);
+                    const imgId = file.response.data.img_id;
+                    deleteImg({imgId}).then(resp => console.log(resp));
+                }
+            })
+        })
+    }
+
+    function updateImages(telId) {
+        getImages({telId}).then(resp => {
+            const {data} = resp;
+            const newList = data.map(item => {
+                return {
+                    status: 'done',
+                    uid: item.img_id,
+                    url: 'http://localhost:7001' + item.img_relative_url
+                }
+            })
+
+            setUpload(prevState => ({
+                ...prevState, fileList: newList
+            }))
+
+        })
     }
 
 
@@ -195,12 +230,13 @@ export default function (props) {
         setTitle(editRow ? 'Edit a item' : 'Create a new item');
         if (editRow) {
             console.log('formRef', formRef)
+            console.log('editRow', editRow);
             if (typeof (editRow.tag_ids) === "string") {
 
                 editRow.tag_ids = editRow.tag_ids.split(',');
             }
             formRef.current.setFieldsValue(editRow);
-
+            updateImages(editRow.tel_id);
         } else {
             // formRef.current && formRef.current.resetFields();
         }
@@ -238,13 +274,19 @@ export default function (props) {
     const handleChange = ({file, fileList}) => {
         setUpload(prevState => ({...prevState, fileList}));
         if (file.status !== 'uploading') {
-            console.log(file, fileList);
+            // console.log(file, fileList);
         }
         if (file.status === 'done') {
-            message.success(`${file.name} file uploaded successfully`);
+            message.success(`${file.name} file uploaded successfully`)
+
+            console.log('file', file, 'fileList', fileList);
+
+
         } else if (file.status === 'error') {
             message.error(`${file.name} file upload failed.`);
         }
+
+
         // console.log(file, fileList);
         // if (file?.response?.status === 200) {
         //     message.success(`${file.name} file uploaded successfully`);
@@ -393,6 +435,7 @@ export default function (props) {
                             multiple
                             onPreview={handlePreview}
                             onChange={handleChange}
+                            onRemove={onRemove}
 
                         >
                             {fileList.length >= 5 ? null : uploadButton}
@@ -402,7 +445,6 @@ export default function (props) {
                             title={previewTitle}
                             footer={null}
                             onCancel={handleCancel}
-
                         >
                             <img alt="example" style={{width: "100%"}} src={previewImage}/>
                         </Modal>
@@ -441,7 +483,6 @@ export default function (props) {
                                     Submit
                                 </Button>
                             </div>
-
                         </Form.Item>
                     </Col>
                 </Row>

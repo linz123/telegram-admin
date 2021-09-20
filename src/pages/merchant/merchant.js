@@ -57,9 +57,9 @@ export default function () {
             dataIndex: 'class_ids',
             key: 'class_ids',
             render: item => {
-                console.log('class_ids', item, classItem);
+                // console.log('class_ids', item, classItem);
                 let specItem = classItem.filter(classItem => parseInt(item) === classItem.class_id);
-                console.log('specItem', specItem)
+                // console.log('specItem', specItem)
                 return (<Tag color='blue' key={item}>{specItem[0] && specItem[0].class_name}</Tag>);
             }
         },
