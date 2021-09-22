@@ -436,7 +436,7 @@ export default function (props) {
                         <Form.Item
                             name="weight"
                             label="权重"
-                            rules={[{required: false, message: '权重（数字越小，权重越大）'}]}
+                            rules={[{required: false, message: '权重（数字越大，权重越大）'}]}
                         >
                             <InputNumber style={{width: '100%'}} placeholder="权重（数字越小，权重越大）"/>
                         </Form.Item>
