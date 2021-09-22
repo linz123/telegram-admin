@@ -193,8 +193,10 @@ export default function (props) {
                 onCancel: () => reject(false),
                 onOk: () => {
                     resolve(true);
-                    const imgId = file.response.data.img_id;
-                    deleteImg({imgId}).then(resp => console.log(resp));
+                    const imgId = file?.response?.data?.img_id || file.uid;
+                    let telId;
+                    if (editRow) telId = editRow.tel_id;
+                    deleteImg({imgId, telId}).then(resp => console.log(resp));
                 }
             })
         })
@@ -205,29 +207,28 @@ export default function (props) {
             const {data} = resp;
             const newList = data.map(item => {
                 return {
+                    response: {
+                        data: {
+                            img_id: item.img_id
+                        }
+                    },
                     status: 'done',
                     uid: item.img_id,
                     url: 'http://localhost:7001' + item.img_relative_url
                 }
             })
-
             setUpload(prevState => ({
                 ...prevState, fileList: newList
             }))
-
         })
     }
 
 
     useEffect(() => {
-        getClassItem();
-        getTagItem();
-        console.log('editRow2', editRow);
-    }, []);
-
-
-    useEffect(() => {
         setTitle(editRow ? 'Edit a item' : 'Create a new item');
+        setUpload(prevState => ({
+            ...prevState, fileList: []
+        }))
         if (editRow) {
             console.log('formRef', formRef)
             console.log('editRow', editRow);
@@ -235,16 +236,34 @@ export default function (props) {
 
                 editRow.tag_ids = editRow.tag_ids.split(',');
             }
-            formRef.current.setFieldsValue(editRow);
             updateImages(editRow.tel_id);
+            formRef.current.setFieldsValue(editRow);
+
         } else {
             // formRef.current && formRef.current.resetFields();
         }
-    })
+    }, [props])
+
+    useEffect(() => {
+        getClassItem();
+        getTagItem();
+        console.log('editRow2', editRow);
+
+
+    }, []);
 
     function close() {
         toggleVisible(false)
         formRef.current.resetFields();
+        console.log('editRow-colse', editRow)
+        if (!editRow) {
+            let img_ids = getImgId(fileList);
+            img_ids.split(',').forEach(item => {
+                if (item) {
+                    deleteImg({imgId: item}).then(resp => console.log(resp));
+                }
+            })
+        }
     }
 
     /**
