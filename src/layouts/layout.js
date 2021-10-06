@@ -7,7 +7,7 @@ import {
     DesktopOutlined,
     ContainerOutlined,
     MailOutlined,
-    LoginOutlined
+    LoginOutlined, SettingOutlined
 } from '@ant-design/icons';
 import React, {useEffect, useState} from 'react';
 import './layout.scss';
@@ -16,6 +16,7 @@ import {getItem, removeItem} from "../utils/storage";
 import {Route, useHistory, Switch, Link} from "react-router-dom";
 import Merchant from "../pages/merchant/merchant";
 import MerClass from "../pages/classes/class";
+import Dashboard from "../pages/dashboard/dashboard";
 import Tags from "../pages/tags/tags";
 import {observer} from "mobx-react";
 
@@ -78,7 +79,9 @@ export default observer(({store, props, history}) => {
                     {/*        <Menu.Item key="12">Option 12</Menu.Item>*/}
                     {/*    </SubMenu>*/}
                     {/*</SubMenu>*/}
-
+                    <Menu.Item key="/user/Dashboard" icon={<SettingOutlined />}>
+                        <Link to="/user/Dashboard">Dashboard</Link>
+                    </Menu.Item>
                     <SubMenu key="sub1" icon={<MailOutlined/>} title="商户">
                         <Menu.Item key="/user/merchant" icon={<PieChartOutlined/>}>
                             <Link to="/user/merchant">商户管理</Link>
@@ -90,6 +93,8 @@ export default observer(({store, props, history}) => {
                             <Link to="/user/tags">标签管理</Link>
                         </Menu.Item>
                     </SubMenu>
+
+
                     {/*<Menu.Item key="2" icon={<DesktopOutlined/>}>*/}
                     {/*    Option 2*/}
                     {/*</Menu.Item>*/}
@@ -138,6 +143,10 @@ export default observer(({store, props, history}) => {
                         <Switch>
                             <Route path="/user/tags" children={<Tags/>}/>
                         </Switch>
+                        <Switch>
+                            <Route path="/user/Dashboard" children={<Dashboard/>}/>
+                        </Switch>
+
                     </div>
                 </Content>
             </Layout>

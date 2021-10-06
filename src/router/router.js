@@ -18,7 +18,7 @@ const routes = [
         path: "/user",
         component: Layout,
         auth: true
-    },
+    }
 
 ];
 
@@ -53,7 +53,7 @@ export default withRouter(props => {
         // }
     })
     if (isLogin) {
-        location.pathname === '/' && history.push('/user/merchant');
+        location.pathname === '/' && history.push('/user/Dashboard');
     } else {
         location.pathname !== '/' && history.push('/');
     }

@@ -64,3 +64,7 @@ export function deleteImg(paras) {
 export function getImages(paras) {
     return request.post('/merchant/getImages', paras);
 }
+
+export function getStatistics() {
+    return request.post('/merchant/getStatistics');
+}
