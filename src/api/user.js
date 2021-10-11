@@ -68,3 +68,11 @@ export function getImages(paras) {
 export function getStatistics() {
     return request.post('/merchant/getStatistics');
 }
+
+export function getUserList(paras) {
+    return request.post('/merchant/getUserList', paras);
+}
+
+export function getUserRecord(paras) {
+    return request.post('/merchant/getUserRecord', paras);
+}
