@@ -76,3 +76,7 @@ export function getUserList(paras) {
 export function getUserRecord(paras) {
     return request.post('/merchant/getUserRecord', paras);
 }
+
+export function findMerchantByName(paras) {
+    return request.post('/merchant/findMerchantByName', paras);
+}

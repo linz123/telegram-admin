@@ -1,7 +1,7 @@
 import './merchant.scss';
-import {Button, Popconfirm, Table, Tag} from "antd";
+import {Button, Popconfirm, Table, Tag, Input, message} from "antd";
 import {useEffect, useState} from "react";
-import {deleteMerchant, getClasses, getMerchant, getTags} from "../../api/user";
+import {deleteMerchant, getClasses, getMerchant, getTags, findMerchantByName} from "../../api/user";
 import AddMerchant from "../../components/addMerchant/addMerchant";
 import {PlusOutlined} from "@ant-design/icons";
 
@@ -15,7 +15,11 @@ export default function () {
     const [classItem, setClassItem] = useState([]);
     const [editRow, setEditRow] = useState(undefined);
 
+    let [recordConfig, setRecordConfig] = useState({
+        pageSize: 10, pageIndex: 1
+    });
 
+    const {Search} = Input;
 
     const columns = [
         {
@@ -106,10 +110,8 @@ export default function () {
     }
 
 
-    let pageSize = 10;
-    let pageIndex = 1;
-
     function getData() {
+        const {pageSize, pageIndex} = recordConfig;
         getMerchant({pageSize, pageIndex}).then(r => {
             if (r.status === 200) {
                 setTotal(r.total);
@@ -118,8 +120,12 @@ export default function () {
         })
     }
 
-    function onchange(current, pageSize) {
-        pageIndex = current;
+    function onchange(pageIndex, pageSize) {
+        setRecordConfig(prevState => ({
+            ...prevState,
+            pageIndex,
+            pageSize
+        }))
         getMerchant({pageSize, pageIndex}).then(r => {
             if (r.status === 200) {
                 setData(r.data);
@@ -154,7 +160,7 @@ export default function () {
     function onChange(isVisible) {
         setVisible(isVisible)
         setEditRow(undefined);
-        getData();
+        // getData();
     }
 
 
@@ -163,14 +169,33 @@ export default function () {
         setEditRow(record)
     }
 
+    function onSearch(name, event) {
+        if (name !== '') {
+            findMerchantByName({name}).then(resp => {
+                setData(resp.data);
+                setTotal(resp.total);
+            })
+        } else {
+            getData()
+            message.info('已更新');
+        }
+    }
+
     return (
         <div className='wrap'>
-            <Button type="primary" style={{marginBottom: '20px'}} onClick={() => onChange(true)}>
-                <PlusOutlined/> New Item
-            </Button>
+            <div className="top-box">
+                <Button type="primary" style={{marginBottom: '20px'}} onClick={() => onChange(true)}>
+                    <PlusOutlined/> New Item
+                </Button>
+
+                <Search placeholder="input search text" style={{width: '200px'}} onSearch={onSearch} enterButton/>
+            </div>
 
             <Table dataSource={data} columns={columns} pagination={{
-                position: 'bottomRight', total, pageSize, onChange: (current, size) => onchange(current, size)
+                position: 'bottomRight',
+                total,
+                pageSize: recordConfig.pageSize,
+                onChange: (current, size) => onchange(current, size)
             }}/>
             <AddMerchant editRow={editRow} visible={visible} toggleVisible={onChange}/>
         </div>
