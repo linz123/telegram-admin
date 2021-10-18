@@ -1,9 +1,19 @@
 import {useEffect, useState} from "react";
 import {Popconfirm, Table, Typography, Input, Form, message} from "antd";
-import {deleteClass, deleteTag, getClasses, getTags, updateClass, updateTags} from "../../api/user";
+import {
+    findTagsByName,
+    deleteClass,
+    deleteTag,
+    findMerchantByName,
+    getClasses,
+    getTags,
+    updateClass,
+    updateTags
+} from "../../api/user";
 import './tags.scss';
 
 export default function () {
+    const {Search} = Input;
 
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
@@ -179,8 +189,31 @@ export default function () {
         getData()
     }, []);
 
+    function onSearch(value, event) {
+        if (value !== '') {
+            findTagsByName({value}).then(resp => {
+                if (resp.status === 200) {
+                    const newData = resp.data.map(item => {
+                        item.key = item.tag_id
+                        return item;
+                    })
+                    setData(newData)
+                } else {
+                    message.warn(resp.msg);
+                }
+            })
+        } else {
+            getData()
+            message.info('已更新');
+        }
+    }
+
+
     return (
         <div>
+            <Search placeholder="input search text" style={{width: '200px', marginBottom: '20px'}} onSearch={onSearch}
+                    enterButton/>
+
             <Form form={form} component={false}>
                 <Table
                     components={{

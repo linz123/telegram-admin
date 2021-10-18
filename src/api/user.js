@@ -80,3 +80,12 @@ export function getUserRecord(paras) {
 export function findMerchantByName(paras) {
     return request.post('/merchant/findMerchantByName', paras);
 }
+
+export function findTagsByName(paras) {
+    return request.post('/merchant/findTagByName', paras);
+}
+
+
+export function getUserCount(){
+    return request.post('/merchant/userCount');
+}

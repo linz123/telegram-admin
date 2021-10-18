@@ -2,8 +2,10 @@ import './dashboard.module.scss';
 import {Statistic, Row, Col, Button, Card, Divider, message, Tabs, Table, Tag, Popconfirm} from 'antd';
 import {ArrowUpOutlined} from "@ant-design/icons";
 import {useEffect, useState} from "react";
-import {getMerchant, getStatistics, getUserList, getUserRecord} from "../../api/user";
+import {getUserCount, getStatistics, getUserList, getUserRecord} from "../../api/user";
 import {getDate} from "../../utils/upload";
+
+import {Line} from '@ant-design/charts';
 
 const {Meta} = Card;
 const {TabPane} = Tabs;
@@ -30,6 +32,9 @@ export default function (props) {
         pageSize: 20, pageIndex: 1
     });
     const [record, setRecord] = useState([]);
+
+
+    const [userCount, setUserCount] = useState([]);
 
 
     const userColumns = [
@@ -100,12 +105,14 @@ export default function (props) {
 
     useEffect(() => {
         doGet();
+        getUser();
         onUseChange(userConfig.pageIndex, userConfig.pageSize);
         onRecordChange(recordConfig.pageIndex, recordConfig.pageSize)
     }, [])
 
     function refresh() {
         doGet();
+        getUser();
         onUseChange(userConfig.pageIndex, userConfig.pageSize);
         onRecordChange(recordConfig.pageIndex, recordConfig.pageSize)
     }
@@ -152,6 +159,33 @@ export default function (props) {
             }
         })
     }
+
+    function getUser() {
+        getUserCount().then(result => {
+            if (result.status === 200) {
+                setUserCount(result.data);
+            }
+        })
+    }
+
+
+    const config = {
+        data: userCount,
+        height: 400,
+        xField: 'create_time',
+        yField: 'value',
+        point: {
+            size: 5,
+            shape: 'diamond',
+        },
+        label: {
+            style: {
+                fill: '#aaa',
+            },
+        },
+    };
+
+    console.log('config', config)
 
     return (
         <div className="dashboard">
@@ -203,6 +237,9 @@ export default function (props) {
                         pageSize: recordConfig.pageSize,
                         onChange: (current, size) => onRecordChange(current, size)
                     }}/>
+                </TabPane>
+                <TabPane tab="新增用户统计" key="3">
+                    <Line {...config} />
                 </TabPane>
             </Tabs>
         </div>
