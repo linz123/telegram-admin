@@ -89,3 +89,7 @@ export function findTagsByName(paras) {
 export function getUserCount(){
     return request.post('/merchant/userCount');
 }
+
+export function getRecordStatics(){
+    return request.post('/merchant/recordCount');
+}

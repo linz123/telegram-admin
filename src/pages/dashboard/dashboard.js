@@ -2,10 +2,10 @@ import './dashboard.module.scss';
 import {Statistic, Row, Col, Button, Card, Divider, message, Tabs, Table, Tag, Popconfirm} from 'antd';
 import {ArrowUpOutlined} from "@ant-design/icons";
 import {useEffect, useState} from "react";
-import {getUserCount, getStatistics, getUserList, getUserRecord} from "../../api/user";
+import {getUserCount, getStatistics, getUserList, getUserRecord, getRecordStatics} from "../../api/user";
 import {getDate} from "../../utils/upload";
 
-import {Line} from '@ant-design/charts';
+import {Line, Column} from '@ant-design/charts';
 
 const {Meta} = Card;
 const {TabPane} = Tabs;
@@ -36,6 +36,7 @@ export default function (props) {
 
     const [userCount, setUserCount] = useState([]);
 
+    const [recordCount, setRecordCount] = useState([]);
 
     const userColumns = [
         {
@@ -106,6 +107,7 @@ export default function (props) {
     useEffect(() => {
         doGet();
         getUser();
+        getRecord();
         onUseChange(userConfig.pageIndex, userConfig.pageSize);
         onRecordChange(recordConfig.pageIndex, recordConfig.pageSize)
     }, [])
@@ -113,6 +115,7 @@ export default function (props) {
     function refresh() {
         doGet();
         getUser();
+        getRecord();
         onUseChange(userConfig.pageIndex, userConfig.pageSize);
         onRecordChange(recordConfig.pageIndex, recordConfig.pageSize)
     }
@@ -168,9 +171,37 @@ export default function (props) {
         })
     }
 
+    function getRecord() {
+        getRecordStatics().then(result => {
+            if (result.status === 200) {
+                setRecordCount(result.data);
+            }
+        })
+    }
+
 
     const config = {
         data: userCount,
+        height: 400,
+        xField: 'create_time',
+        yField: 'value',
+        point: {
+            size: 5,
+            shape: 'diamond',
+        },
+        label: {
+            position: 'middle',
+            style: {
+                fill: '#aaa',
+            },
+        },
+        meta: {
+            create_time: {alias: '日期'},
+            value: {alias: '新增用户数'},
+        },
+    };
+    const RecordConfig = {
+        data: recordCount,
         height: 400,
         xField: 'create_time',
         yField: 'value',
@@ -183,9 +214,13 @@ export default function (props) {
                 fill: '#aaa',
             },
         },
+        meta: {
+            create_time: {alias: '日期'},
+            value: {alias: '使用人次'},
+        },
     };
 
-    console.log('config', config)
+    console.log('config', RecordConfig)
 
     return (
         <div className="dashboard">
@@ -238,9 +273,13 @@ export default function (props) {
                         onChange: (current, size) => onRecordChange(current, size)
                     }}/>
                 </TabPane>
-                <TabPane tab="新增用户统计" key="3">
-                    <Line {...config} />
+                <TabPane tab="每日指令统计" key="3">
+                    <Line {...RecordConfig} />
                 </TabPane>
+                <TabPane tab="每日新增用户统计" key="4">
+                    <Column {...config} />
+                </TabPane>
+
             </Tabs>
         </div>
     )
