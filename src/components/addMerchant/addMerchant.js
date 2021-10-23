@@ -214,7 +214,7 @@ export default function (props) {
                     },
                     status: 'done',
                     uid: item.img_id,
-                    url: 'http://45.32.120.67:7001' + item.img_relative_url
+                    url: 'http://45.77.249.168:7001' + item.img_relative_url
                 }
             })
             setUpload(prevState => ({

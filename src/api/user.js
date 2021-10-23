@@ -93,3 +93,20 @@ export function getUserCount(){
 export function getRecordStatics(){
     return request.post('/merchant/recordCount');
 }
+
+export function insetTaskList(paras) {
+    return request.post('/task/addTask', paras);
+}
+
+
+export function getTaskList(paras) {
+    return request.post('/task/getTaskList', paras);
+}
+
+export function updateTaskById(paras) {
+    return request.post('/task/updateTaskById', paras);
+}
+
+export function deleteTaskById(paras) {
+    return request.post('/task/deleteTaskById', paras);
+}

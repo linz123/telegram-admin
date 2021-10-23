@@ -7,7 +7,7 @@ import {
     DesktopOutlined,
     ContainerOutlined,
     MailOutlined,
-    LoginOutlined, SettingOutlined
+    LoginOutlined, SettingOutlined, ChromeOutlined
 } from '@ant-design/icons';
 import React, {useEffect, useState} from 'react';
 import './layout.scss';
@@ -17,6 +17,7 @@ import {Route, useHistory, Switch, Link} from "react-router-dom";
 import Merchant from "../pages/merchant/merchant";
 import MerClass from "../pages/classes/class";
 import Dashboard from "../pages/dashboard/dashboard";
+import MsgBroadCast from "../pages/timedTask/msgBroadcast/msgBroadcast";
 import Tags from "../pages/tags/tags";
 import {observer} from "mobx-react";
 
@@ -79,7 +80,7 @@ export default observer(({store, props, history}) => {
                     {/*        <Menu.Item key="12">Option 12</Menu.Item>*/}
                     {/*    </SubMenu>*/}
                     {/*</SubMenu>*/}
-                    <Menu.Item key="/user/Dashboard" icon={<SettingOutlined />}>
+                    <Menu.Item key="/user/Dashboard" icon={<SettingOutlined/>}>
                         <Link to="/user/Dashboard">Dashboard</Link>
                     </Menu.Item>
                     <SubMenu key="sub1" icon={<MailOutlined/>} title="商户">
@@ -91,6 +92,11 @@ export default observer(({store, props, history}) => {
                         </Menu.Item>
                         <Menu.Item key="/user/tags" icon={<PieChartOutlined/>}>
                             <Link to="/user/tags">标签管理</Link>
+                        </Menu.Item>
+                    </SubMenu>
+                    <SubMenu key="sub2" icon={<ChromeOutlined/>} title="定时任务">
+                        <Menu.Item key="/user/broadcast" icon={<PieChartOutlined/>}>
+                            <Link to="/user/broadcast">消息推送</Link>
                         </Menu.Item>
                     </SubMenu>
 
@@ -145,6 +151,9 @@ export default observer(({store, props, history}) => {
                         </Switch>
                         <Switch>
                             <Route path="/user/Dashboard" children={<Dashboard/>}/>
+                        </Switch>
+                        <Switch>
+                            <Route path="/user/broadcast" children={<MsgBroadCast/>}/>
                         </Switch>
 
                     </div>

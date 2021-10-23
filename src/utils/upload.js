@@ -12,7 +12,7 @@ export function getBase64() {
 
 
 export function getDate() {
-    var date = new Date(new Date().getTime() - 1000 * 60 * 60 * 24);
+    var date = new Date(new Date().getTime() - 1000 * 60 * 60 * 48);
 
 // 获取当前月份
     var nowMonth = date.getMonth() + 1;
