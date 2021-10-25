@@ -110,3 +110,7 @@ export function updateTaskById(paras) {
 export function deleteTaskById(paras) {
     return request.post('/task/deleteTaskById', paras);
 }
+
+export function getImageList(paras) {
+    return request.post('/task/getImagesList', paras);
+}

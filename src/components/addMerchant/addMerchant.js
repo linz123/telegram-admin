@@ -3,8 +3,10 @@ import React, {useEffect, useState} from "react";
 import {Button, Col, Row, Drawer, Form, Input, Select, Divider, message, InputNumber, Upload, Modal} from "antd";
 import {addClass, addMerchant, addTag, deleteImg, getClasses, getImages, getTags, updateMerchant} from "../../api/user";
 import {ExclamationCircleOutlined, PlusOutlined} from "@ant-design/icons";
+import {Config} from "../../config"
 
-import {getBase64} from "../../utils/upload";
+const {serverImageUrl} = Config;
+
 
 export default function (props) {
     const [tagItem, setTagItem] = useState([]);
@@ -25,40 +27,6 @@ export default function (props) {
             //     url:
             //         "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
             // },
-            // {
-            //     uid: "-2",
-            //     name: "image.png",
-            //     status: "done",
-            //     url:
-            //         "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-            // },
-            // {
-            //     uid: "-3",
-            //     name: "image.png",
-            //     status: "done",
-            //     url:
-            //         "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-            // },
-            // {
-            //     uid: "-4",
-            //     name: "image.png",
-            //     status: "done",
-            //     url:
-            //         "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-            // },
-            // {
-            //     uid: "-xxx",
-            //     percent: 50,
-            //     name: "image.png",
-            //     status: "uploading",
-            //     url:
-            //         "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-            // },
-            // {
-            //     uid: "-5",
-            //     name: "image.png",
-            //     status: "error"
-            // }
 
         ]
     })
@@ -214,7 +182,7 @@ export default function (props) {
                     },
                     status: 'done',
                     uid: item.img_id,
-                    url: 'http://45.77.249.168:7001' + item.img_relative_url
+                    url: serverImageUrl + item.img_relative_url
                 }
             })
             setUpload(prevState => ({

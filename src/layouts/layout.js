@@ -7,7 +7,7 @@ import {
     DesktopOutlined,
     ContainerOutlined,
     MailOutlined,
-    LoginOutlined, SettingOutlined, ChromeOutlined
+    LoginOutlined, SettingOutlined, ChromeOutlined, FileImageOutlined
 } from '@ant-design/icons';
 import React, {useEffect, useState} from 'react';
 import './layout.scss';
@@ -18,6 +18,7 @@ import Merchant from "../pages/merchant/merchant";
 import MerClass from "../pages/classes/class";
 import Dashboard from "../pages/dashboard/dashboard";
 import MsgBroadCast from "../pages/timedTask/msgBroadcast/msgBroadcast";
+import ImageManage from "../pages/timedTask/ImageManage/imageManage";
 import Tags from "../pages/tags/tags";
 import {observer} from "mobx-react";
 
@@ -98,7 +99,11 @@ export default observer(({store, props, history}) => {
                         <Menu.Item key="/user/broadcast" icon={<PieChartOutlined/>}>
                             <Link to="/user/broadcast">消息推送</Link>
                         </Menu.Item>
+                        <Menu.Item key="/user/imageManage" icon={<FileImageOutlined />}>
+                            <Link to="/user/imageManage">图片管理</Link>
+                        </Menu.Item>
                     </SubMenu>
+
 
 
                     {/*<Menu.Item key="2" icon={<DesktopOutlined/>}>*/}
@@ -154,6 +159,9 @@ export default observer(({store, props, history}) => {
                         </Switch>
                         <Switch>
                             <Route path="/user/broadcast" children={<MsgBroadCast/>}/>
+                        </Switch>
+                        <Switch>
+                            <Route path="/user/imageManage" children={<ImageManage/>}/>
                         </Switch>
 
                     </div>

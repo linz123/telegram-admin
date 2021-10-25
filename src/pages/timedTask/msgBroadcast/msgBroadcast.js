@@ -98,6 +98,11 @@ export default function () {
             key: 'name',
         },
         {
+            title: '图片地址',
+            dataIndex: 'img_url',
+            key: 'img_url',
+        },
+        {
             title: '开始时间',
             dataIndex: 'start_time',
             key: 'start_time',

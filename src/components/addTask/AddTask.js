@@ -117,16 +117,25 @@ export default function AddTask(props) {
                     </Col>
                 </Row>
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col span={2}>
                         <Form.Item
                             name="status"
                             label="状态"
 
                         >
-                            <Switch style={{marginLeft: '5px'}} onChange={() => {
+                            <Switch  onChange={() => {
                                 setInput(!input)
                             }} checked={input} checkedChildren="开启" unCheckedChildren="禁用"
                                     defaultChecked/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={10}>
+                        <Form.Item
+                            name="img_url"
+                            label="图片链接"
+                            rules={[{required: true, message: '请填写链接'}]}
+                        >
+                            <Input placeholder="请填写链接"/>
                         </Form.Item>
                     </Col>
                     <Col span={12}>

@@ -75,6 +75,10 @@ export default function (props) {
             title: '最近使用时间',
             dataIndex: 'update_time',
             key: 'telegram_id',
+        }, {
+            title: '创建时间',
+            dataIndex: 'create_time',
+            key: 'create_time',
         }
     ];
 
