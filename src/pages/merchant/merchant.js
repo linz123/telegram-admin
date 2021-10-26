@@ -160,7 +160,9 @@ export default function () {
     function onChange(isVisible) {
         setVisible(isVisible)
         setEditRow(undefined);
-        // getData();
+        if(!isVisible){
+            getData();
+        }
     }
 
 

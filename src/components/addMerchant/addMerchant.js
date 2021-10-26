@@ -302,7 +302,7 @@ export default function (props) {
                             label="名称"
                             rules={[{required: true, message: 'Please enter user name'}]}
                         >
-                            <Input placeholder="Please enter user name"/>
+                            <Input.TextArea placeholder="Please enter user name"/>
                         </Form.Item>
                     </Col>
                     <Col span={12}>
