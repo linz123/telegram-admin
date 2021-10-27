@@ -328,7 +328,7 @@ export default function (props) {
                 {/*<TabPane tab="每日指令统计" key="3">*/}
                 {/*    <Line {...RecordConfig} />*/}
                 {/*</TabPane>*/}
-                <TabPane tab="每日新增用户统计" key="4">
+                <TabPane tab="每日新增用户指令" key="4">
                     <Column {...config} />
                 </TabPane>
 
