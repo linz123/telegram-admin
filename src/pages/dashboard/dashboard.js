@@ -332,7 +332,7 @@ export default function (props) {
                     <Column {...config} />
                 </TabPane>
 
-                <TabPane tab="高频关键词" key="5">
+                <TabPane tab="十日高频关键词" key="5">
                     <WordCloud {...WindCloudConfig} />
                 </TabPane>
 
