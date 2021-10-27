@@ -2,10 +2,17 @@ import './dashboard.module.scss';
 import {Statistic, Row, Col, Button, Card, Divider, message, Tabs, Table, Tag, Popconfirm} from 'antd';
 import {ArrowUpOutlined} from "@ant-design/icons";
 import {useEffect, useState} from "react";
-import {getUserCount, getStatistics, getUserList, getUserRecord, getRecordStatics} from "../../api/user";
+import {
+    getUserCount,
+    getStatistics,
+    getUserList,
+    getUserRecord,
+    getRecordStatics,
+    getCommandStatistic
+} from "../../api/user";
 import {getDate} from "../../utils/upload";
 
-import {Line, Column} from '@ant-design/charts';
+import {Line, Column, WordCloud} from '@ant-design/charts';
 
 const {Meta} = Card;
 const {TabPane} = Tabs;
@@ -42,6 +49,9 @@ export default function (props) {
     const [userCount, setUserCount] = useState([]);
 
     const [recordCount, setRecordCount] = useState([]);
+
+    const [windCount, setWindCount] = useState([]);
+
 
     const userColumns = [
         {
@@ -116,7 +126,8 @@ export default function (props) {
     useEffect(() => {
         doGet();
         getUser();
-        getRecord();
+        // getRecord();
+        getWindCount();
         onUseChange(userConfig.pageIndex, userConfig.pageSize);
         onRecordChange(recordConfig.pageIndex, recordConfig.pageSize)
     }, [])
@@ -124,7 +135,8 @@ export default function (props) {
     function refresh() {
         doGet();
         getUser();
-        getRecord();
+        // getRecord();
+
         onUseChange(userConfig.pageIndex, userConfig.pageSize);
         onRecordChange(recordConfig.pageIndex, recordConfig.pageSize)
     }
@@ -140,8 +152,12 @@ export default function (props) {
 
     }
 
-    function tabCallBack() {
-
+    function tabCallBack(index, item) {
+        console.log(index, item);
+        if (index === '4') {
+            console.log('windCount', windCount);
+            // getWindCount();
+        }
     }
 
     function onUseChange(pageIndex, pageSize) {
@@ -173,9 +189,14 @@ export default function (props) {
     }
 
     function getUser() {
-        getUserCount().then(result => {
-            if (result.status === 200) {
-                setUserCount(result.data);
+        getUserCount().then(userResult => {
+            if (userResult.status === 200) {
+                getRecordStatics().then(recordResult => {
+                    if (recordResult.status === 200) {
+                        setUserCount(userResult.data.concat(recordResult.data));
+                    }
+                })
+
             }
         })
     }
@@ -188,25 +209,30 @@ export default function (props) {
         })
     }
 
+    function getWindCount() {
+        getCommandStatistic().then(result => {
+            if (result.status === 200) {
+                setWindCount(result.data);
+            }
+        })
+    }
+
 
     const config = {
         data: userCount,
         height: 400,
         xField: 'create_time',
         yField: 'value',
-        point: {
-            size: 5,
-            shape: 'diamond',
-        },
+        isGroup: true,
+        seriesField: 'class',
+        dodgePadding: 2,
         label: {
             position: 'middle',
-            style: {
-                fill: '#aaa',
-            },
-        },
-        meta: {
-            create_time: {alias: '日期'},
-            value: {alias: '新增用户数'},
+            layout: [
+                {type: 'interval-adjust-position'},
+                {type: 'interval-hide-overlap'},
+                {type: 'adjust-color'},
+            ],
         },
     };
     const RecordConfig = {
@@ -229,6 +255,23 @@ export default function (props) {
         },
     };
 
+    const WindCloudConfig = {
+        data: windCount,
+        wordField: 'command',
+        weightField: 'count',
+        colorField: 'command',
+        wordStyle: {
+            fontFamily: 'Verdana',
+            fontSize: [12, 42],
+            rotation: 0,
+        },
+        // color: ['#FF6B3B', '#626681', '#FFC100', '#9FB40F', '#76523B', '#DAD5B5', '#0E8E89', '#E19348', '#F383A2', '#247FEA'],
+        // 返回值设置成一个 [0, 1) 区间内的值，
+        // 可以让每次渲染的位置相同（前提是每次的宽高一致）。
+        random: () => 0.5,
+    }
+
+
     console.log('config', RecordConfig)
 
     return (
@@ -239,7 +282,7 @@ export default function (props) {
                     <Card>
                         <Statistic title="总访问次数" value={statistics.total}/>
                         <Divider/>
-                        <span style={{'color': 'grey'}}>当日访问次数</span> <span>{statistics.dayTotal}</span>
+                        <span style={{'color': 'grey'}}>当日访问人次</span> <span>{statistics.dayTotal}</span>
                     </Card>
                 </Col>
                 <Col span={6}>
@@ -247,7 +290,7 @@ export default function (props) {
                         <Statistic title="当前在线人数" value={statistics.onlineUser} valueStyle={{color: '#3f8600'}}
                                    prefix={<ArrowUpOutlined/>}/>
                         <Divider/>
-                        <span style={{'color': 'grey'}}>历史使用人数</span> <span>{statistics.allUser}</span>
+                        <span style={{'color': 'grey'}}>用户总人数</span> <span>{statistics.allUser}</span>
                     </Card>
                 </Col>
                 <Col span={6}>
@@ -282,11 +325,15 @@ export default function (props) {
                         onChange: (current, size) => onRecordChange(current, size)
                     }}/>
                 </TabPane>
-                <TabPane tab="每日指令统计" key="3">
-                    <Line {...RecordConfig} />
-                </TabPane>
+                {/*<TabPane tab="每日指令统计" key="3">*/}
+                {/*    <Line {...RecordConfig} />*/}
+                {/*</TabPane>*/}
                 <TabPane tab="每日新增用户统计" key="4">
                     <Column {...config} />
+                </TabPane>
+
+                <TabPane tab="高频关键词" key="5">
+                    <WordCloud {...WindCloudConfig} />
                 </TabPane>
 
             </Tabs>

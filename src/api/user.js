@@ -114,3 +114,10 @@ export function deleteTaskById(paras) {
 export function getImageList(paras) {
     return request.post('/task/getImagesList', paras);
 }
+
+
+
+
+export function getCommandStatistic() {
+    return request.post('/merchant/commandStatistic');
+}
