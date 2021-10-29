@@ -18,6 +18,7 @@ import Merchant from "../pages/merchant/merchant";
 import MerClass from "../pages/classes/class";
 import Dashboard from "../pages/dashboard/dashboard";
 import MsgBroadCast from "../pages/timedTask/msgBroadcast/msgBroadcast";
+import RankManage from "../pages/timedTask/rankManage/rankManage";
 import ImageManage from "../pages/timedTask/ImageManage/imageManage";
 import Tags from "../pages/tags/tags";
 import {observer} from "mobx-react";
@@ -99,11 +100,13 @@ export default observer(({store, props, history}) => {
                         <Menu.Item key="/user/broadcast" icon={<PieChartOutlined/>}>
                             <Link to="/user/broadcast">消息推送</Link>
                         </Menu.Item>
-                        <Menu.Item key="/user/imageManage" icon={<FileImageOutlined />}>
+                        <Menu.Item key="/user/imageManage" icon={<FileImageOutlined/>}>
                             <Link to="/user/imageManage">图片管理</Link>
                         </Menu.Item>
+                        <Menu.Item key="/user/rankManage" icon={<FileImageOutlined/>}>
+                            <Link to="/user/rankManage">排名管理</Link>
+                        </Menu.Item>
                     </SubMenu>
-
 
 
                     {/*<Menu.Item key="2" icon={<DesktopOutlined/>}>*/}
@@ -162,6 +165,9 @@ export default observer(({store, props, history}) => {
                         </Switch>
                         <Switch>
                             <Route path="/user/imageManage" children={<ImageManage/>}/>
+                        </Switch>
+                        <Switch>
+                            <Route path="/user/rankManage" children={<RankManage/>}/>
                         </Switch>
 
                     </div>

@@ -86,11 +86,11 @@ export function findTagsByName(paras) {
 }
 
 
-export function getUserCount(){
+export function getUserCount() {
     return request.post('/merchant/userCount');
 }
 
-export function getRecordStatics(){
+export function getRecordStatics() {
     return request.post('/merchant/recordCount');
 }
 
@@ -115,9 +115,24 @@ export function getImageList(paras) {
     return request.post('/task/getImagesList', paras);
 }
 
-
-
-
 export function getCommandStatistic() {
     return request.post('/merchant/commandStatistic');
+}
+
+
+export function updateRankById(paras) {
+    return request.post('/ad/updateRankById', paras);
+}
+
+
+export function deleteRankById(paras) {
+    return request.post('/ad/deleteRankById', paras);
+}
+
+export function getRankList(paras) {
+    return request.post('/ad/getRankList', paras);
+}
+
+export function insertRank(paras) {
+    return request.post('/ad/addRank', paras);
 }
