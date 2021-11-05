@@ -136,3 +136,21 @@ export function getRankList(paras) {
 export function insertRank(paras) {
     return request.post('/ad/addRank', paras);
 }
+
+
+export function insertAd(paras) {
+    return request.post('/ad/addAd', paras);
+}
+
+export function getAdList(paras) {
+    return request.post('/ad/getAdList', paras);
+}
+
+
+export function updateAdById(paras) {
+    return request.post('/ad/updateAdById', paras);
+}
+
+export function deleteAdById(paras) {
+    return request.post('/ad/deleteAdById', paras);
+}

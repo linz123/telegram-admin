@@ -20,6 +20,8 @@ import Dashboard from "../pages/dashboard/dashboard";
 import MsgBroadCast from "../pages/timedTask/msgBroadcast/msgBroadcast";
 import RankManage from "../pages/timedTask/rankManage/rankManage";
 import ImageManage from "../pages/timedTask/ImageManage/imageManage";
+import AdManage from "../pages/timedTask/adManage/adManage";
+
 import Tags from "../pages/tags/tags";
 import {observer} from "mobx-react";
 
@@ -106,6 +108,10 @@ export default observer(({store, props, history}) => {
                         <Menu.Item key="/user/rankManage" icon={<FileImageOutlined/>}>
                             <Link to="/user/rankManage">排名管理</Link>
                         </Menu.Item>
+                        <Menu.Item key="/user/adManage" icon={<FileImageOutlined/>}>
+                            <Link to="/user/adManage">广告管理</Link>
+                        </Menu.Item>
+
                     </SubMenu>
 
 
@@ -168,6 +174,9 @@ export default observer(({store, props, history}) => {
                         </Switch>
                         <Switch>
                             <Route path="/user/rankManage" children={<RankManage/>}/>
+                        </Switch>
+                        <Switch>
+                            <Route path="/user/adManage" children={<AdManage/>}/>
                         </Switch>
 
                     </div>
