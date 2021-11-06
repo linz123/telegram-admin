@@ -91,10 +91,10 @@ export default function AddRank(props) {
                     <Col span={24}>
                         <Form.Item
                             name="ad_title"
-                            label="标题"
-                            rules={[{required: true, message: '请填写标题'}]}
+                            label="跳转链接"
+                            rules={[{required: true, message: '请填写链接'}]}
                         >
-                            <Input.TextArea autoSize={{minRows: 1, maxRows: 2}} placeholder="请填写标题"/>
+                            <Input.TextArea autoSize={{minRows: 1, maxRows: 2}} placeholder="请填写链接"/>
                         </Form.Item>
                     </Col>
                 </Row>

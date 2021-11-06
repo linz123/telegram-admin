@@ -91,7 +91,7 @@ export default function () {
             key: 'ad_id',
         },
         {
-            title: '标题',
+            title: '链接',
             dataIndex: 'ad_title',
             key: 'ad_title',
         },
