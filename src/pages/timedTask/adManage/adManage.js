@@ -33,8 +33,8 @@ export default function () {
         setEditRow(record)
     }
 
-    const itemDeleteConfirm = (rank_id) => {
-        deleteAdById({rank_id}).then(resp => {
+    const itemDeleteConfirm = (ad_id) => {
+        deleteAdById({ad_id}).then(resp => {
             if (resp.status === 200) {
                 message.success(resp.msg);
                 doGet();
