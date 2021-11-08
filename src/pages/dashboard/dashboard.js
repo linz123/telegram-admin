@@ -308,7 +308,8 @@ export default function (props) {
                     </Card>
                 </Col>
             </Row>
-            <Tabs defaultActiveKey="1" onChange={tabCallBack} style={{'marginTop': '20px'}}>
+            <Tabs destroyInactiveTabPane={true} defaultActiveKey="1" onChange={tabCallBack}
+                  style={{'marginTop': '20px'}}>
                 <TabPane tab="用户列表" key="1">
                     <Table dataSource={userList.data} columns={userColumns} pagination={{
                         position: 'bottomRight',
